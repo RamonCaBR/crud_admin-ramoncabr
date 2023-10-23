@@ -7,6 +7,7 @@ import { createUserSchema } from "../schemas/user.schema";
 import { sessionSchema } from "../schemas/session.schema";
 import {
   createUserController,
+  getAllUserCoursesController,
   getAllUsersController,
 } from "../controllers/users.controller";
 import { createSessionController } from "../controllers/session.controller";
@@ -29,4 +30,9 @@ usersRoutes.post(
 usersRoutes.use(tokenValidation);
 
 usersRoutes.get("/users", isAdmin, getAllUsersController);
-usersRoutes.get("/users/:id/courses", isAdmin, isUserRegistered);
+usersRoutes.get(
+  "/users/:id/courses",
+  isAdmin,
+  isUserRegistered,
+  getAllUserCoursesController
+);

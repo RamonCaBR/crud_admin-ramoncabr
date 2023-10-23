@@ -1,5 +1,9 @@
 import { QueryResult } from "pg";
-import { CreateUser, UserRes } from "../interfaces/users.interface";
+import {
+  CreateUser,
+  UserCoursesRes,
+  UserRes,
+} from "../interfaces/users.interface";
 import { client } from "../database";
 import format from "pg-format";
 import { hashSync } from "bcryptjs";
@@ -30,6 +34,27 @@ export const getAllUsersService = async (): Promise<UserRes[]> => {
   const queryString = "SELECT id, name, email, admin FROM users;";
 
   const { rows }: QueryResult<UserRes> = await client.query(queryString);
+
+  return rows;
+};
+
+export const getAllUserCoursesServices = async (id: string) => {
+  const queryString = `SELECT
+  c.id "courseId",
+  c.name "courseName",
+  c.description "courseDescription",
+  uc.active "userActiveInCourse",
+  u.id "userId",
+  u.name "userName"
+  FROM users u
+  JOIN "userCourses" uc ON uc."userId" = u.id
+  JOIN courses c ON c.id = uc."courseId"
+  WHERE u.id = $1`;
+
+  const { rows }: QueryResult<UserCoursesRes> = await client.query(
+    queryString,
+    [id]
+  );
 
   return rows;
 };

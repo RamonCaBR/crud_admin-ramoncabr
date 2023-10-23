@@ -9,7 +9,7 @@ export const isUserRegistered = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.id;
+  const userId: string = req.params.id;
 
   const queryString: string = `SELECT EXISTS (SELECT 1 FROM "userCourses" WHERE "userId" = $1);`;
 
