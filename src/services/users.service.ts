@@ -2,8 +2,13 @@ import { QueryResult } from "pg";
 import { CreateUser, UserRes } from "../interfaces/users.interface";
 import { client } from "../database";
 import format from "pg-format";
+import { hashSync } from "bcryptjs";
 
 export const createUserService = async (data: CreateUser): Promise<UserRes> => {
+  const hashedPassword: string = hashSync(data.password);
+
+  data["password"] = hashedPassword;
+
   const queryFormat: string = format(
     `INSERT INTO "users" (%I) VALUES (%L)
     RETURNING id, name, email, admin`,
