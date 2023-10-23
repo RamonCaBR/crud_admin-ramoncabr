@@ -2,7 +2,10 @@ import { Router } from "express";
 import { bodyValidation } from "../middlewares/bodyValidation.middleware";
 import { createUserSchema } from "../schemas/user.schema";
 import { verfiyIfEmailExists } from "../middlewares/verfiyIfEmailExists.middleware";
-import { createUserController } from "../controllers/users.controller";
+import {
+  createUserController,
+  getAllUsersController,
+} from "../controllers/users.controller";
 import { createSessionController } from "../controllers/session.controller";
 import { sessionSchema } from "../schemas/session.schema";
 import { tokenValidation } from "../middlewares/tokenValidation.middleware";
@@ -24,4 +27,4 @@ usersRoutes.post(
 
 usersRoutes.use(tokenValidation);
 
-usersRoutes.get("/users", isAdmin);
+usersRoutes.get("/users", isAdmin, getAllUsersController);

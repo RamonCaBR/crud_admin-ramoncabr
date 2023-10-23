@@ -25,3 +25,11 @@ export const createUserService = async (data: CreateUser): Promise<UserRes> => {
 
   return user;
 };
+
+export const getAllUsersService = async (): Promise<UserRes[]> => {
+  const queryString = "SELECT id, name, email, admin FROM users;";
+
+  const { rows }: QueryResult<UserRes> = await client.query(queryString);
+
+  return rows;
+};
