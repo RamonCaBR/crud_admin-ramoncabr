@@ -7,7 +7,7 @@ export const tokenValidation = (
   res: Response,
   next: NextFunction
 ) => {
-  const authorization: string = req.body.authorization;
+  const authorization: string | undefined = req.headers.authorization;
 
   if (!authorization) throw new AppError("Missing bearer token", 401);
 
@@ -17,7 +17,6 @@ export const tokenValidation = (
     if (error) throw new AppError(error.message, 401);
 
     res.locals.email = decoded.email;
-    res.locals.email = decoded.id;
   });
 
   return next();
