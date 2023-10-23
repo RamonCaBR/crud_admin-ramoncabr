@@ -31,7 +31,7 @@ export const createUserService = async (data: CreateUser): Promise<UserRes> => {
 };
 
 export const getAllUsersService = async (): Promise<UserRes[]> => {
-  const queryString = "SELECT id, name, email, admin FROM users;";
+  const queryString: string = "SELECT id, name, email, admin FROM users;";
 
   const { rows }: QueryResult<UserRes> = await client.query(queryString);
 
@@ -39,7 +39,7 @@ export const getAllUsersService = async (): Promise<UserRes[]> => {
 };
 
 export const getAllUserCoursesServices = async (id: string) => {
-  const queryString = `SELECT
+  const queryString: string = `SELECT
   c.id "courseId",
   c.name "courseName",
   c.description "courseDescription",
