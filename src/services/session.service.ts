@@ -10,7 +10,7 @@ import { sign } from "jsonwebtoken";
 export const createSessionService = async (data: Session): Promise<string> => {
   const { email, password }: Session = data;
 
-  const queryString = `SELECT * FROM users WHERE email = $1`;
+  const queryString: string = `SELECT * FROM users WHERE email = $1`;
 
   const { rows }: QueryResult<User> = await client.query(queryString, [email]);
 
@@ -22,10 +22,14 @@ export const createSessionService = async (data: Session): Promise<string> => {
 
   if (!isPasswordValid) throw new AppError("Wrong email/password", 401);
 
-  const token = sign({ email: user.email }, String(process.env.SECRET_KEY), {
-    expiresIn: process.env.EXPIRES_IN,
-    subject: String(user.id),
-  });
+  const token: string = sign(
+    { email: user.email },
+    String(process.env.SECRET_KEY),
+    {
+      expiresIn: process.env.EXPIRES_IN,
+      subject: String(user.id),
+    }
+  );
 
   return token;
 };
