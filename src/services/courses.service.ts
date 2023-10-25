@@ -16,3 +16,11 @@ export const createCourseService = async (
 
   return rows[0];
 };
+
+export const getAllCoursesService = async (): Promise<Course[]> => {
+  const queryString: string = "SELECT * FROM courses;";
+
+  const { rows }: QueryResult<Course> = await client.query(queryString);
+
+  return rows;
+};
