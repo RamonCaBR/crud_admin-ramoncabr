@@ -22,12 +22,7 @@ export const createUserService = async (data: CreateUser): Promise<UserRes> => {
 
   const { rows }: QueryResult<UserRes> = await client.query(queryFormat);
 
-  let user: UserRes = rows[0];
-
-  if (!rows[0].admin)
-    user = { id: rows[0].id, name: rows[0].name, email: rows[0].email };
-
-  return user;
+  return rows[0];
 };
 
 export const getAllUsersService = async (): Promise<UserRes[]> => {

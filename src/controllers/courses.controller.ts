@@ -50,8 +50,6 @@ export const getAllCourseUsersController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  console.log(req.params.id)
-
   const allCourseUsers: CourseUsersRes[] = await getAllCourseUsersServices(
     req.params.id
   );

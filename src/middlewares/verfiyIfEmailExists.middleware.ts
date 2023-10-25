@@ -17,7 +17,7 @@ export const verfiyIfEmailExists = async (
     email,
   ]);
 
-  if (rows[0].exists) throw new AppError("Email already exists.", 409);
+  if (rows[0].exists) throw new AppError("Email already registered", 409);
 
   return next();
 };
