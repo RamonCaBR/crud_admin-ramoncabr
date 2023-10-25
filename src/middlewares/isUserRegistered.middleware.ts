@@ -1,23 +1,23 @@
 import { NextFunction, Request, Response } from "express";
-import { QueryExists, User } from "../interfaces/users.interface";
 import { QueryResult } from "pg";
 import { client } from "../database";
+import { QueryExists } from "../interfaces/users.interface";
 import AppError from "../errors/App.error";
 
-export const verfiyIfEmailExists = async (
+export const isUserRegistered = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email }: User = req.body;
+  const userId: string = req.params.id;
 
-  const queryString: string = `SELECT EXISTS (SELECT 1 FROM "users" WHERE email = $1);`;
+  const queryString: string = `SELECT EXISTS (SELECT 1 FROM "userCourses" WHERE "userId" = $1);`;
 
   const { rows }: QueryResult<QueryExists> = await client.query(queryString, [
-    email,
+    userId,
   ]);
 
-  if (rows[0].exists) throw new AppError("Email already registered", 409);
+  if (!rows[0].exists) throw new AppError("No course found", 404);
 
   return next();
 };
