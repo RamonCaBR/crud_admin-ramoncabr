@@ -26,12 +26,10 @@ usersRoutes.post(
   bodyValidation(sessionSchema),
   createSessionController
 );
-
-usersRoutes.use(tokenValidation);
-
-usersRoutes.get("/users", isAdmin, getAllUsersController);
+usersRoutes.get("/users", tokenValidation, isAdmin, getAllUsersController);
 usersRoutes.get(
   "/users/:id/courses",
+  tokenValidation,
   isAdmin,
   isUserRegistered,
   getAllUserCoursesController
