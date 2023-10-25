@@ -3,6 +3,7 @@ import { bodyValidation } from "../middlewares/bodyValidation.middleware";
 import { createUserSchema } from "../schemas/courses.schema";
 import {
   createCourseController,
+  deactivateUserController,
   getAllCoursesController,
   registerUserController,
 } from "../controllers/courses.controller";
@@ -13,19 +14,25 @@ import { verifyIfCourseExists } from "../middlewares/verifyIfCourseExists.middle
 
 export const coursesRoutes: Router = Router();
 
+coursesRoutes.get("/", getAllCoursesController);
+
+coursesRoutes.use(tokenValidation, isAdmin);
+
 coursesRoutes.post(
   "/",
-  tokenValidation,
   bodyValidation(createUserSchema),
-  isAdmin,
   createCourseController
 );
-coursesRoutes.get("/", getAllCoursesController);
+
 coursesRoutes.post(
   "/:courseId/users/:userId",
-  tokenValidation,
-  isAdmin,
   verifyIfUserExists,
   verifyIfCourseExists,
   registerUserController
+);
+coursesRoutes.delete(
+  "/:courseId/users/:userId",
+  verifyIfUserExists,
+  verifyIfCourseExists,
+  deactivateUserController
 );

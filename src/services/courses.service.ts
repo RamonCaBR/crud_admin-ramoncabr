@@ -34,3 +34,14 @@ export const registerUserService = async (
 
   await client.query(queryString, [userId, courseId]);
 };
+
+export const deactivateUserService = async (
+  userId: string,
+  courseId: string
+): Promise<void> => {
+  const queryString: string = `UPDATE "userCourses" uc
+  SET active = false
+  WHERE uc."userId" = $1 AND uc."courseId" = $2;`;
+
+  await client.query(queryString, [userId, courseId]);
+};
