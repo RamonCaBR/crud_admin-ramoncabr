@@ -24,3 +24,13 @@ export const getAllCoursesService = async (): Promise<Course[]> => {
 
   return rows;
 };
+
+export const registerUserService = async (
+  userId: string,
+  courseId: string
+): Promise<void> => {
+  const queryString: string = `INSERT INTO "userCourses" ("userId", "courseId")
+  VALUES ($1, $2);`;
+
+  await client.query(queryString, [userId, courseId]);
+};
