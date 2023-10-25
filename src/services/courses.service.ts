@@ -1,5 +1,9 @@
 import format from "pg-format";
-import { Course, CreateCourse } from "../interfaces/courses.interface";
+import {
+  Course,
+  CourseUsersRes,
+  CreateCourse,
+} from "../interfaces/courses.interface";
 import { QueryResult } from "pg";
 import { client } from "../database";
 
@@ -44,4 +48,27 @@ export const deactivateUserService = async (
   WHERE uc."userId" = $1 AND uc."courseId" = $2;`;
 
   await client.query(queryString, [userId, courseId]);
+};
+
+export const getAllCourseUsersServices = async (
+  id: string
+): Promise<CourseUsersRes[]> => {
+  const queryString: string = `SELECT
+  u.id "userId",
+  u.name "userName",
+  c.id "courseId",
+  c.name "courseName",
+  c.description "courseDescription",
+  uc.active "userActiveInCourse"
+  FROM courses c
+  JOIN "userCourses" uc ON uc."courseId" = c.id
+  JOIN users u ON u.id = uc."userId"
+  WHERE c.id = $1;`;
+
+  const { rows }: QueryResult<CourseUsersRes> = await client.query(
+    queryString,
+    [id]
+  );
+
+  return rows;
 };

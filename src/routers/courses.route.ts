@@ -4,13 +4,14 @@ import { createUserSchema } from "../schemas/courses.schema";
 import {
   createCourseController,
   deactivateUserController,
+  getAllCourseUsersController,
   getAllCoursesController,
   registerUserController,
 } from "../controllers/courses.controller";
 import { isAdmin } from "../middlewares/isAdmin.middleware";
 import { tokenValidation } from "../middlewares/tokenValidation.middleware";
 import { verifyIfUserExists } from "../middlewares/verifyIfUserExists.middleware";
-import { verifyIfCourseExists } from "../middlewares/verifyIfCourseExists.middleware";
+import { verifyIfCourseExists } from "../middlewares/verifyIfCourseExists.middleware copy";
 
 export const coursesRoutes: Router = Router();
 
@@ -36,3 +37,4 @@ coursesRoutes.delete(
   verifyIfCourseExists,
   deactivateUserController
 );
+coursesRoutes.get("/:id/users", getAllCourseUsersController);

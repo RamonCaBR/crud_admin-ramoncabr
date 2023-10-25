@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { Course } from "../interfaces/courses.interface";
+import { Course, CourseUsersRes } from "../interfaces/courses.interface";
 import {
   createCourseService,
   deactivateUserService,
+  getAllCourseUsersServices,
   getAllCoursesService,
   registerUserService,
 } from "../services/courses.service";
@@ -43,4 +44,17 @@ export const deactivateUserController = async (
   await deactivateUserService(req.params.userId, req.params.courseId);
 
   return res.sendStatus(204);
+};
+
+export const getAllCourseUsersController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  console.log(req.params.id)
+
+  const allCourseUsers: CourseUsersRes[] = await getAllCourseUsersServices(
+    req.params.id
+  );
+
+  return res.status(200).json(allCourseUsers);
 };

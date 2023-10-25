@@ -9,7 +9,7 @@ import {
 export const createUserController = async (
   req: Request,
   res: Response
-): Promise<Response<UserRes>> => {
+): Promise<Response> => {
   const user: UserRes = await createUserService(req.body);
 
   return res.status(201).json(user);
@@ -18,7 +18,7 @@ export const createUserController = async (
 export const getAllUsersController = async (
   req: Request,
   res: Response
-): Promise<Response<UserRes[]>> => {
+): Promise<Response> => {
   const users: UserRes[] = await getAllUsersService();
 
   return res.status(200).json(users);
@@ -27,7 +27,7 @@ export const getAllUsersController = async (
 export const getAllUserCoursesController = async (
   req: Request,
   res: Response
-): Promise<Response<UserCoursesRes[]>> => {
+): Promise<Response> => {
   const allUserCourses: UserCoursesRes[] = await getAllUserCoursesServices(
     req.params.id
   );
